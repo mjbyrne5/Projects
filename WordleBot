@@ -168,3 +168,4 @@ while win < 6:
         data1.remove(word)
 
     print(data1)
+    win += 1
