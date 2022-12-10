@@ -1,0 +1,170 @@
+import pandas as pd
+
+# build word list
+df = pd.read_csv()  # IMPORT CSV OF WORDLE WORDS (NOT SUPPLIED)
+data = df['Words']  # COLUMN TITLE WORDS
+
+# word info
+not_exist = []
+in_word = []
+
+not1 = []
+not2 = []
+not3 = []
+not4 = []
+not5 = []
+
+yes1 = []
+yes2 = []
+yes3 = []
+yes4 = []
+yes5 = []
+
+win = 0
+data1 = data.tolist()
+yesses = []
+
+while win < 6:
+    count = 0
+    word = input('What is your word? ')
+    code = input('What is your words code? ')
+
+    for i in code:
+        count += 1
+        # assign yesses
+        if i == '2':
+            if count == 1:
+                yes1.append(word[0])
+                yesses.append(word[0])
+            if count == 2:
+                yes2.append(word[1])
+                yesses.append(word[1])
+            if count == 3:
+                yes3.append(word[2])
+                yesses.append(word[2])
+            if count == 4:
+                yes4.append(word[3])
+                yesses.append(word[3])
+            if count == 5:
+                yes5.append(word[4])
+                yesses.append(word[4])
+
+        yesses = yesses + yes1 + yes2 + yes3 + yes4 + yes5
+
+        # assign no's
+        if i == '0':
+            if count == 1:
+                if word[0] not in (yesses or in_word):
+                    not_exist.append(word[0])
+            if count == 2:
+                if word[1] not in (yesses or in_word):
+                    not_exist.append(word[1])
+            if count == 3:
+                if word[2] not in (yesses or in_word):
+                    not_exist.append(word[2])
+            if count == 4:
+                if word[3] not in (yesses or in_word):
+                    not_exist.append(word[3])
+            if count == 5:
+                if word[4] not in (yesses or in_word):
+                    not_exist.append(word[4])
+
+        # assign right letter wrong spot
+        if i == '1':
+            if count == 1:
+                not1.append(word[0])
+                in_word.append(word[0])
+                yesses.append(word[0])
+            if count == 2:
+                not2.append(word[1])
+                in_word.append(word[1])
+                yesses.append(word[1])
+            if count == 3:
+                not3.append(word[2])
+                in_word.append(word[2])
+                yesses.append(word[2])
+            if count == 4:
+                not4.append(word[3])
+                in_word.append(word[3])
+                yesses.append(word[3])
+            if count == 5:
+                not5.append(word[4])
+                in_word.append(word[4])
+                yesses.append(word[4])
+
+    # remove wrong letter words
+    p = 0
+    r = 100
+    while p < r:
+        p += 1
+        for i in not_exist:
+            for j in data1:
+                if i in j:
+                    data1.remove(j)
+
+    # check if right letter not used in right spot
+    count1 = 0
+    p = 0
+    r = 100
+    while p < r:
+        p += 1
+        for i in data1:
+            if len(yes1) == 1:
+                if (i[0] not in yes1) and (i in data1):
+                    data1.remove(i)
+            if len(yes2) == 1:
+                if (i[1] not in yes2) and (i in data1):
+                    data1.remove(i)
+            if len(yes3) == 1:
+                if (i[2] not in yes3) and (i in data1):
+                    data1.remove(i)
+            if len(yes4) == 1:
+                if (i[3] not in yes4) and (i in data1):
+                    data1.remove(i)
+            if len(yes5) == 1:
+                if (i[4] not in yes5) and (i in data1):
+                    data1.remove(i)
+
+    # remove right letter wrong spot
+    b = 0
+    while b != 3:
+        count1 = 0
+        p = 0
+        r = 100
+        while p < r:
+            p += 1
+            count1 += 1
+            for i in data1:
+                if count1 == 1:
+                    if i[0] in not1:
+                        data1.remove(i)
+                if count1 == 2:
+                    if (i[1] in not2) and (i in data1):
+                        data1.remove(i)
+                if count1 == 3:
+                    if (i[2] in not3) and (i in data1):
+                        data1.remove(i)
+                if count1 == 4:
+                    if (i[3] in not4) and (i in data1):
+                        data1.remove(i)
+                if count1 == 5:
+                    if (i[4] in not5) and (i in data1):
+                        data1.remove(i)
+        b += 1
+
+
+    # remove words that don't have right letters
+    count1 = 0
+    p = 0
+    r = 100
+    while p < r:
+        p += 1
+        for i in data1:
+            for j in in_word:
+                if (j not in i) and (i in data1):
+                    data1.remove(i)
+
+    if word in data1:
+        data1.remove(word)
+
+    print(data1)
