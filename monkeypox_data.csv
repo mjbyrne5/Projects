@@ -1,0 +1,53 @@
+Location,Cases,Population,Is Coastal
+Alabama,170,5073187,1
+Alaska,5,738023,1
+Arizona,538,7303398,0
+Arkansas,70,3030646,0
+California,5547,39995077,1
+Colorado,354,5922618,0
+Connecticut,143,3612314,1
+Delaware,41,1008350,1
+Florida,2764,22085563,1
+Georgia,1931,10916760,1
+Hawaii,35,1474265,1
+Idaho,15,1893410,0
+Illinois,1397,12808884,0
+Indiana,262,6845874,0
+Iowa,27,3219171,0
+Kansas,36,2954832,0
+Kentucky,74,4539130,0
+Louisiana,287,4682633,1
+Maine,12,1369159,1
+Maryland,723,6257958,1
+Massachusetts,445,7126375,1
+Michigan,352,10116069,0
+Minnesota,233,5787008,0
+Mississippi,105,2960075,1
+Missouri,169,6188111,0
+Montana,7,1103187,0
+Nebraska,31,1988536,0
+Nevada,304,3185426,0
+New Hampshire,31,1389741,1
+New Jersey,754,9388414,1
+New Mexico,51,2129190,0
+New York,4134,20365879,1
+North Carolina,666,10620168,1
+North Dakota,6,800394,0
+Ohio,359,11852036,0
+Oklahoma,62,4000953,0
+Oregon,245,4318492,1
+Pennsylvania,851,13062764,0
+Rhode Island,81,1106341,1
+South Carolina,215,5217037,1
+South Dakota,3,901165,0
+Tennessee,370,7023788,0
+Texas,2771,29945493,1
+Utah,185,3373162,0
+Vermont,3,646545,0
+Virginia,543,8757467,1
+Washington,649,7901429,1
+West Virginia,12,1781860,0
+Wisconsin,87,5935064,0
+Wyoming,4,579495,0
+District of Columbia,521,707109,0
+Total,28881,,
