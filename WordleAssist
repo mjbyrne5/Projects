@@ -1,8 +1,8 @@
 import pandas as pd
 
 # build word list
-df = pd.read_csv()  # IMPORT CSV OF WORDLE WORDS (NOT SUPPLIED)
-data = df['Words']  # COLUMN TITLE WORDS
+df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv")
+data1 = df['WORDS'].tolist()
 
 # word info
 not_exist = []
@@ -20,8 +20,7 @@ yes3 = []
 yes4 = []
 yes5 = []
 
-win = 0
-data1 = data.tolist()
+win = 1
 yesses = []
 
 while win < 6:
@@ -166,6 +165,9 @@ while win < 6:
 
     if word in data1:
         data1.remove(word)
-
-    print(data1)
     win += 1
+    print(data1)
+
+    if win == 6:
+        print("Final Round")
+        
