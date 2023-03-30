@@ -1,7 +1,8 @@
 import pandas as pd
 
 # build word list
-df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv") 
+#source: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 data1 = df['WORDS'].tolist()
 
 # word info
