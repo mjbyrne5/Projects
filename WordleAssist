@@ -1,7 +1,7 @@
 import pandas as pd
 
 # build word list
-df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv") 
+df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv")
 #source: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 data1 = df['WORDS'].tolist()
 
@@ -26,7 +26,7 @@ yesses = []
 
 while win < 6:
     count = 0
-    word = input('What is your word? ')
+    word = input('What is your word? ').lower()
     code = input('What is your word code? ')
 
     for i in code:
@@ -172,7 +172,6 @@ while win < 6:
     if word in data1:
         data1.remove(word)
     win += 1
-    print(data1)
-
     if win == 6:
         print("Final Round")
+    print(data1)
