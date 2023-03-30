@@ -26,7 +26,7 @@ yesses = []
 while win < 6:
     count = 0
     word = input('What is your word? ')
-    code = input('What is your words code? ')
+    code = input('What is your word code? ')
 
     for i in code:
         count += 1
@@ -54,19 +54,24 @@ while win < 6:
         if i == '0':
             if count == 1:
                 if word[0] not in (yesses or in_word):
-                    not_exist.append(word[0])
+                    if word.count(word[0]) < 2:
+                        not_exist.append(word[0])
             if count == 2:
                 if word[1] not in (yesses or in_word):
-                    not_exist.append(word[1])
+                    if word.count(word[1]) < 2:
+                        not_exist.append(word[1])
             if count == 3:
                 if word[2] not in (yesses or in_word):
-                    not_exist.append(word[2])
+                    if word.count(word[2]) < 2:
+                        not_exist.append(word[2])
             if count == 4:
                 if word[3] not in (yesses or in_word):
-                    not_exist.append(word[3])
+                    if word.count(word[3]) < 2:
+                        not_exist.append(word[3])
             if count == 5:
                 if word[4] not in (yesses or in_word):
-                    not_exist.append(word[4])
+                    if word.count(word[4]) < 2:
+                        not_exist.append(word[4])
 
         # assign right letter wrong spot
         if i == '1':
@@ -126,7 +131,7 @@ while win < 6:
 
     # remove right letter wrong spot
     b = 0
-    while b != 3:
+    while b != 10:
         count1 = 0
         p = 0
         r = 100
@@ -170,4 +175,3 @@ while win < 6:
 
     if win == 6:
         print("Final Round")
-        
