@@ -1,9 +1,11 @@
 import pandas as pd
+import random
 
 # build word list
 df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv")
 #source: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 data1 = df['WORDS'].tolist()
+reductionTrack = len(data1)
 
 # word info
 not_exist = []
@@ -21,10 +23,11 @@ yes3 = []
 yes4 = []
 yes5 = []
 
-win = 1
 yesses = []
 
-while win < 6:
+roundCount = 1
+
+while roundCount < 6:
     count = 0
     word = input('What is your word? ').lower()
     code = input('What is your word code? ')
@@ -74,7 +77,7 @@ while win < 6:
                     if word.count(word[4]) < 2:
                         not_exist.append(word[4])
 
-        # assign right letter wrong spot
+        # assign right letter in the wrong spot
         if i == '1':
             if count == 1:
                 not1.append(word[0])
@@ -97,81 +100,103 @@ while win < 6:
                 in_word.append(word[4])
                 yesses.append(word[4])
 
-    # remove wrong letter words
-    p = 0
-    r = 100
-    while p < r:
-        p += 1
-        for i in not_exist:
-            for j in data1:
-                if i in j:
-                    data1.remove(j)
+    # remove words with wrong letters (check grays)
+    wrongLetter = []
+    for i in not_exist:
+        for j in data1:
+            if i in j:
+                wrongLetter.append(j)
+    data2 = []
+    for i in data1:
+        if i not in wrongLetter:
+            data2.append(i)
 
-    # check if right letter not used in right spot
-    count1 = 0
-    p = 0
-    r = 100
-    while p < r:
-        p += 1
-        for i in data1:
-            if len(yes1) == 1:
-                if (i[0] not in yes1) and (i in data1):
-                    data1.remove(i)
-            if len(yes2) == 1:
-                if (i[1] not in yes2) and (i in data1):
-                    data1.remove(i)
-            if len(yes3) == 1:
-                if (i[2] not in yes3) and (i in data1):
-                    data1.remove(i)
-            if len(yes4) == 1:
-                if (i[3] not in yes4) and (i in data1):
-                    data1.remove(i)
-            if len(yes5) == 1:
-                if (i[4] not in yes5) and (i in data1):
-                    data1.remove(i)
 
-    # remove right letter wrong spot
-    b = 0
-    while b != 10:
-        count1 = 0
-        p = 0
-        r = 100
-        while p < r:
-            p += 1
-            count1 += 1
-            for i in data1:
-                if count1 == 1:
-                    if i[0] in not1:
-                        data1.remove(i)
-                if count1 == 2:
-                    if (i[1] in not2) and (i in data1):
-                        data1.remove(i)
-                if count1 == 3:
-                    if (i[2] in not3) and (i in data1):
-                        data1.remove(i)
-                if count1 == 4:
-                    if (i[3] in not4) and (i in data1):
-                        data1.remove(i)
-                if count1 == 5:
-                    if (i[4] in not5) and (i in data1):
-                        data1.remove(i)
-        b += 1
+    # check if right letter not used in right spot (check greens)
+    wrongSpot = []
+    for i in data2:
+        if len(yes1) == 1:
+            if i[0] not in yes1:
+                wrongSpot.append(i)
+        if len(yes2) == 1:
+            if i[1] not in yes2:
+                wrongSpot.append(i)
+        if len(yes3) == 1:
+            if i[2] not in yes3:
+                wrongSpot.append(i)
+        if len(yes4) == 1:
+            if i[3] not in yes4:
+                wrongSpot.append(i)
+        if len(yes5) == 1:
+            if i[4] not in yes5:
+                wrongSpot.append(i)
+    data3 = []
+    for i in data2:
+        if i not in wrongSpot:
+            data3.append(i)
 
+
+    # remove wrong letters for specific spot
+    count1 = 1
+    notRight = []
+    while count1 != 7:
+        for i in data3:
+            if count1 == 1:
+                if i[0] in not1:
+                    notRight.append(i)
+            if count1 == 2:
+                if (i[1] in not2) and (i in data1):
+                    notRight.append(i)
+            if count1 == 3:
+                if (i[2] in not3) and (i in data1):
+                    notRight.append(i)
+            if count1 == 4:
+                if (i[3] in not4) and (i in data1):
+                    notRight.append(i)
+            if count1 == 5:
+                if (i[4] in not5) and (i in data1):
+                    notRight.append(i)
+        count1 += 1
+    data4 = []
+    for i in data3:
+        if i not in notRight:
+            data4.append(i)
 
     # remove words that don't have right letters
-    count1 = 0
-    p = 0
-    r = 100
-    while p < r:
-        p += 1
-        for i in data1:
-            for j in in_word:
-                if (j not in i) and (i in data1):
-                    data1.remove(i)
+    notCorrect = []
+    for i in data4:
+        for j in in_word:
+            if (j not in i) and (i in data4):
+                notCorrect.append(i)
+    data5 = []
+    for i in data4:
+        if i not in notCorrect:
+            data5.append(i)
 
-    if word in data1:
-        data1.remove(word)
-    win += 1
-    if win == 6:
+    if word in data5:
+        data5.remove(word)
+    roundCount += 1
+    if len(data5) == 0:
+        print("Out of Words")
+
+
+    data1 = data5
+    print(f'Possible: {data1}')
+    bestGuesses = []
+    letterTrack = 0
+    for i in data1:
+        check = 0
+        for j in i:
+            if i.count(j) > 1:
+                check += 1
+        if check < 1:
+            bestGuesses.append(i)
+
+    if len(bestGuesses) > 0:
+        print(f'Suggestion: {random.choice(bestGuesses)}')
+    if len(bestGuesses) == 0:
+        print(f'Suggestion: {random.choice(data1)}')
+    print(f'Total Reduction: {round((1-((len(data1))/reductionTrack))*100,4)}%')
+    if roundCount == 6:
         print("Final Round")
-    print(data1)
+    print('----------------------------------------------------------------------------------')
