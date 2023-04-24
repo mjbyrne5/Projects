@@ -404,13 +404,13 @@ while inPlay:
                     if bestLetters[3] in q:
                         if q not in tier2:
                             tier2.append(q)
-            if bestLetters[2] in q:  # done
+            if bestLetters[2] in q: 
                 if q not in tier1:
                     tier1.append(q)
                     if bestLetters[3] in q:
                         if q not in tier2:
                             tier2.append(q)
-            if bestLetters[3] in q:  # done
+            if bestLetters[3] in q:  
                 if q not in tier1:
                     tier1.append(q)
 
