@@ -6,7 +6,6 @@ df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words
 masterWordList = df['WORDS'].tolist()
 reductionStats = len(masterWordList)
 
-
 # word info
 grayLetters = []
 greenLetters = []
@@ -110,7 +109,6 @@ while inPlay:
         if i not in wordList2:
             wordList3.append(i)
     wordList = wordList3
-
 
     # Assign grays
     count = 0
@@ -220,7 +218,6 @@ while inPlay:
             wordList3.append(i)
     wordList = wordList3
 
-
     # Remove words with wrong letter in known spot
     notRight = []
     for i in wordList:
@@ -276,7 +273,6 @@ while inPlay:
         wordList = wordList2
         if code != '22222':
             print('Double letter detected')
-
 
     # Find letters remaining with greatest frequency
     letters = [['a', 0], ['b', 0], ['c', 0], ['d', 0], ['e', 0], ['f', 0], ['g', 0], ['h', 0], ['i', 0],
