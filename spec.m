@@ -22,18 +22,18 @@ plot(t, abs(u))
 title("Magnitude")
 %%
 start = Fs * 0.1;
-interval = 0.5*start;
-finish = N - mod(N, start) - interval;
+interval = Fs * 0.1;
+overlap = 0.05 * Fs;
+numWindows = round(((N - start) / ( 0.5 * interval)) - 1);
+m = zeros(interval, numWindows);
 
-m = zeros(start,finish);
-j = 1;
-for i = start:interval:finish
-    w = s(i-interval:i+interval-1);
-    u = fft(w);
-    m(:,j) = abs(u);
-    j = j + 1;
+for i = 1:numWindows
+    w = s(start : start + interval - 1);                                                                                                           
+    u = fft(w);                                                                         
+    m(:,i) = abs(u);
+    start = start + interval - overlap;
+ 
 end
-m = m(:, 1:interval);
 
 imagesc(m);
 set(gca,'YDir','normal')
@@ -66,24 +66,24 @@ title("Imag")
 plot(t, abs(u))
 title("Magnitude")
 start = Fs * 0.1;
-interval = 0.5*start;
-finish = N - mod(N, start) - interval;
+interval = Fs * 0.1;
+overlap = 0.05 * Fs;
+numWindows = round(((N - start) / ( 0.5 * interval)) - 1);
+m = zeros(interval, numWindows);
 
-m = zeros(start,finish);
-j = 1;
-for i = start:interval:finish
-    w = s(i-interval:i+interval-1);
-    u = fft(w);
-    m(:,j) = abs(u);
-    j = j + 1;
+for i = 1:numWindows
+    w = s(start : start + interval - 1);                                                                                                           
+    u = fft(w);                                                                         
+    m(:,i) = abs(u);
+    start = start + interval - overlap;
+ 
 end
-m = m(:, 1:interval);
 
 imagesc(m);
 set(gca,'YDir','normal')
 axis on;
 xticklabels(0.5:0.5:3.5);
-yticklabels(1000:500:Fs/2);
+yticklabels(1000:500:4000);
 title('Spectrogram');
 xlabel('t(sec)');
 ylabel('f(Hz');
