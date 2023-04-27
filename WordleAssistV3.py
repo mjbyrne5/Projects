@@ -1,15 +1,17 @@
 import pandas as pd
+import random
 
-# build word list
+# Import list of legal words
+# Source: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 df = pd.read_csv("https://raw.githubusercontent.com/mjbyrne5/Projects/main/words.csv")
-#  source: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
+
 masterWordList = df['WORDS'].tolist()
+wordList = []
 reductionStats = len(masterWordList)
 
-# word info
+# Create lists for letter info
 grayLetters = []
 greenLetters = []
-
 notIn = [[], [], [], [], []]
 yesIn = [[], [], [], [], []]
 
@@ -48,9 +50,9 @@ while inPlay:
         print(f"You've solved the word in {roundCount} guesses")
         inPlay = False
 
+    # Assign green letters
     for i in code:
         count += 1
-        # Assign greens
         if i == '2':
             if count == 1 and word[0] not in yesIn[0]:
                 yesIn[0].append(word[0])
@@ -73,20 +75,7 @@ while inPlay:
                 if word[0] not in greenLetters:
                     greenLetters.append(word[4])
 
-    # remove words that don't have green letters
-    wordList2 = []
-    for i in wordList:
-        for j in greenLetters:
-            if j not in i:
-                if i not in wordList2:
-                    wordList2.append(i)
-    wordList3 = []
-    for i in wordList:
-        if i not in wordList2:
-            wordList3.append(i)
-    wordList = wordList3
-
-    # Check for spot in word that has a known green
+    # Check spots in word that have a known green letter
     wordList2 = []
     for i in wordList:
         if len(yesIn[0]) == 1:
@@ -179,7 +168,7 @@ while inPlay:
             wordList3.append(i)
     wordList = wordList3
 
-    # Assign yellows
+    # Assign yellow letters
     count = 0
     for i in code:
         count += 1
@@ -205,7 +194,7 @@ while inPlay:
                 if word[4] not in greenLetters:
                     greenLetters.append(word[4])
 
-    # remove words that don't have green letters again
+    # Remove words that don't have green letters (yellow updated)
     wordList2 = []
     for i in wordList:
         for j in greenLetters:
@@ -274,7 +263,7 @@ while inPlay:
         if code != '22222':
             print('Double letter detected')
 
-    # Find letters remaining with greatest frequency
+    # Determine most common remaining letters
     letters = [['a', 0], ['b', 0], ['c', 0], ['d', 0], ['e', 0], ['f', 0], ['g', 0], ['h', 0], ['i', 0],
                ['j', 0], ['k', 0], ['l', 0], ['m', 0], ['n', 0], ['o', 0], ['p', 0], ['q', 0], ['r', 0],
                ['s', 0], ['t', 0], ['u', 0], ['v', 0], ['w', 0], ['x', 0], ['y', 0], ['z', 0]]
@@ -306,7 +295,7 @@ while inPlay:
         letters[24][1] += p.count('y')
         letters[25][1] += p.count('z')
 
-    # sort letter frequencies in ascending order
+    # Sort letter frequencies in ascending order
     letters.sort(key=lambda x: x[1])
 
     bestLetters = []
@@ -400,13 +389,13 @@ while inPlay:
                     if bestLetters[3] in q:
                         if q not in tier2:
                             tier2.append(q)
-            if bestLetters[2] in q: 
+            if bestLetters[2] in q:
                 if q not in tier1:
                     tier1.append(q)
                     if bestLetters[3] in q:
                         if q not in tier2:
                             tier2.append(q)
-            if bestLetters[3] in q:  
+            if bestLetters[3] in q:
                 if q not in tier1:
                     tier1.append(q)
 
@@ -420,8 +409,8 @@ while inPlay:
     elif len(tier1) > 0:
         a = tier1[0]
 
-    if len(wordList) == 1:
-        a = wordList[0]
+    if a == 0:
+        a = random.choice(wordList)
 
     doubleTracker = 0
     doubleList = []
