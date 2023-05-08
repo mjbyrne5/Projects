@@ -2,6 +2,7 @@ import numpy as np
 import sympy as smp
 import matplotlib.pyplot as plt
 from sympy import pretty_print
+from fractions import Fraction
 
 x = smp.Symbol("x")
 n = smp.Symbol("n", positive=True)
@@ -48,7 +49,7 @@ An = Anf + Ang
 Bnf = smp.integrate(f2, x)
 Bng = smp.integrate(g2, x)
 
-
+# Ignore function squigglies, they work
 def definiteBnf(a, b):
   return Bnf.evalf(subs={x: b}) - Bnf.evalf(subs={x: a})
 
@@ -62,12 +63,13 @@ Bng = definiteBng(smp.pi/2, smp.pi)
 Bn = Bnf + Bng
 
 final = (An * smp.cos((2*smp.pi*n*x)/T)) + (Bn * smp.sin((2*smp.pi*n*x)/T))
-pretty_print(final)  # Does not include A0
+pretty_print(A0 + final)
 
 x = np.linspace(0, 10, num=100)
 y = np.zeros(len(x))
 count = 0
 
+# Set range to desired number of iterations + 1
 for j in range(1, 6):
     print(f'{j} finished')
     count = 0
@@ -79,4 +81,5 @@ for j in range(1, 6):
 y = y + A0
 
 plt.plot(x, y)
+plt.title('Function as Fourier Series')
 plt.show()
