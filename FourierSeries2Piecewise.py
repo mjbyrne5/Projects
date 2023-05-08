@@ -14,7 +14,6 @@ T = smp.pi
 f = x**2
 g = smp.pi - x
 
-# Don't touch anything else until graph
 
 f1 = (2/T) * f * smp.cos((2*smp.pi*n*x)/T)
 g1 = (2/T) * g * smp.cos((2*smp.pi*n*x)/T)
@@ -32,6 +31,7 @@ def definite(a, b):
 def definite1(a, b):
   return A0g.evalf(subs={x: b}) - A0g.evalf(subs={x: a})
 
+# Set definite ranges to reflect period length
 
 A0f = (1/T) * definite(0, smp.pi/2)
 A0g = (1/T) * definite1(smp.pi/2, smp.pi)
