@@ -2,7 +2,6 @@ import numpy as np
 import sympy as smp
 import matplotlib.pyplot as plt
 from sympy import pretty_print
-from fractions import Fraction
 
 x = smp.Symbol("x")
 n = smp.Symbol("n", positive=True)
