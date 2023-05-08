@@ -3,11 +3,19 @@ import sympy as smp
 import matplotlib.pyplot as plt
 from sympy import pretty_print
 
+# Symbols
 x = smp.Symbol("x")
 n = smp.Symbol("n", positive=True)
+
+# Set period length
 T = smp.pi
-f = x
+
+# Functions
+f = x**2
 g = smp.pi - x
+
+# Don't touch anything else until graph
+
 f1 = (2/T) * f * smp.cos((2*smp.pi*n*x)/T)
 g1 = (2/T) * g * smp.cos((2*smp.pi*n*x)/T)
 f2 = (2/T) * f * smp.sin((2*smp.pi*n*x)/T)
@@ -32,6 +40,8 @@ A0 = A0f + A0g
 Anf = smp.integrate(f1, x)
 Ang = smp.integrate(g1, x)
 
+# Ignore function squigglies, they work
+
 
 def definiteAnf(a, b):
   return Anf.evalf(subs={x: b}) - Anf.evalf(subs={x: a})
@@ -48,7 +58,7 @@ An = Anf + Ang
 Bnf = smp.integrate(f2, x)
 Bng = smp.integrate(g2, x)
 
-# Ignore function squigglies, they work
+
 def definiteBnf(a, b):
   return Bnf.evalf(subs={x: b}) - Bnf.evalf(subs={x: a})
 
@@ -64,12 +74,13 @@ Bn = Bnf + Bng
 final = (An * smp.cos((2*smp.pi*n*x)/T)) + (Bn * smp.sin((2*smp.pi*n*x)/T))
 pretty_print(A0 + final)
 
+# Graph, a higher linspace num or summation range will drastically increase processing time
 x = np.linspace(0, 10, num=100)
 y = np.zeros(len(x))
 count = 0
 
-# Set range to desired number of iterations + 1
-for j in range(1, 6):
+# Set range to desired number of iterations + 1, note processing time
+for j in range(1, 11):
     print(f'{j} finished')
     count = 0
     for i in x:
