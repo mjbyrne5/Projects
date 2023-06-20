@@ -1,0 +1,44 @@
+# Designed for use as a virtual call center to mimic real world use
+
+import random
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("/Users/michaelbyrne/Desktop/Career/TestList.csv")
+
+# Real World Data
+agents = df['FIRSTEMPLOYEENAME'].tolist()
+strategy = df['STRATEGYNAME'].tolist()
+
+# Simulation Data
+strategySimulation = df['STRATEGYNAME'].tolist()  # amount of each strategy found in avg day
+value = df['EV'].tolist()  # amount of calls in day = 1, rest of 28800 second day = 0
+busy = np.zeros(len(agents))  # tracks available agents relative to avg sale time
+saleTime = df['AVGSALETIME'].tolist()
+
+calls = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+total = 0
+currentEV = 0
+currentAgent = 'null'
+
+while len(calls) > 0:
+    currentCall = random.choice(calls)
+    calls.remove(currentCall)
+    if currentCall == 1:
+        currentStrategy = random.choice(strategySimulation)
+        strategySimulation.remove(currentStrategy)
+        for i in range(0, len(agents)):
+            if currentStrategy == strategy[i] and busy[i] == 0:
+                currentAgent = agents[i]
+                currentEV = value[i]
+        for i in range(0, len(agents)):
+            if agents[i] == currentAgent and currentStrategy == strategy[i]:
+                busy[i] = saleTime[i] + 1
+        total += currentEV
+
+    for i in range(0, len(busy)):
+        if busy[i] > 0:
+            busy[i] -= 1
+
+print(total)
