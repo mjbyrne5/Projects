@@ -41,7 +41,9 @@ saleTime = df['AVGSALETIME'].tolist()
 
 total = 0
 
+
 while len(calls) > 0:
+    variation = 1000  # to track closeness of EV
     currentEV = 0
     currentAgent = 'null'
     currentCall = random.choice(calls)
@@ -49,10 +51,12 @@ while len(calls) > 0:
     if currentCall != '0':
         for i in range(0, len(agents)):
             if currentCall == StrategyName[i] and value[i] != 'Null':
-                if float(value[i]) > (float(AvgEV[i]) and float(currentEV)):
+                if float(value[i]) > (float(AvgEV[i])):
                     if busy[i] == 0 and callsTotal[i] > 99:
-                        currentAgent = agents[i]
-                        currentEV = float(value[i])
+                        if float(value[i]) - (float(AvgEV[i])) < variation:
+                            variation = float(value[i]) - (float(AvgEV[i]))
+                            currentAgent = agents[i]
+                            currentEV = float(value[i])
         print(currentCall)
         print(currentAgent)
         print(currentEV)
