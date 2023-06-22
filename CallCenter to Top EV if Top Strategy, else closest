@@ -23,6 +23,7 @@ N21 = ['Null Grade Day 2 Attempt 1']
 C12 = ['C Leads Day 1 Attempt 2']
 N12 = ['Null Grade Day 1 Attempt 2']
 zeros = ['0']
+
 topStrategies = ['B Through High Fico Leads Day 1 Attempt 1', 'B Through High Fico Leads Day 1 Attempt 1',
                  'Super Hot Lead', 'Super Hot Second Pass', 'Super Hot Third Party Leads']
 
@@ -42,13 +43,22 @@ busy = np.zeros(len(agents))  # tracks available agents relative to avg sale tim
 saleTime = df['AVGSALETIME'].tolist()
 
 total = 0
+Caught = []  # Delete
+timeWasted = 0  # Delete
+AgentUseTracker = []
+
+for i in agents:
+    if i not in AgentUseTracker:
+        AgentUseTracker.append(i)
 
 while len(calls) > 0:
+
     variation = 1000  # to track closeness of EV
     currentEV = 0
     currentAgent = 'null'
     currentCall = random.choice(calls)
     calls.remove(currentCall)
+
     # Assign unless B11, B12, SH, SHT, SH2
     if currentCall != '0':
         for i in range(0, len(agents)):
@@ -67,17 +77,64 @@ while len(calls) > 0:
                             currentAgent = agents[i]
                             currentEV = float(value[i])
 
-        print(currentCall)
-        print(currentAgent)
-        print(currentEV)
+        # Fail Safe if no agent assigned
+        while currentAgent == 'null':
+            # Assign first available agent
+            for i in range(0, len(agents)):
+                if busy[i] == 0 and currentAgent == 'null':
+                    currentAgent = agents[i]
+                    currentEV = 0
+            # Adjust time if no agents available and restart
+            if currentAgent == 'null':
+                for i in range(0, len(busy)):
+                    if busy[i] > 0:
+                        busy[i] -= 1
+                calls.remove('0')
+                timeWasted += 1
 
+        # Sale Report
+        print("---------------------------------------------------------------")
+        print(f'Time Passed In Hours: {(28800 - len(calls)) / 3600}')
+        print(f'Current Call Strategy: {currentCall}')
+        print(f'Agent Assigned: {currentAgent}')
+        print(f'EV Of Call: {currentEV}')
+
+        # Set selected agent to busy for average sale time plus lull
         for i in range(0, len(busy)):
             if agents[i] == currentAgent:
-                busy[i] = round(saleTime[i]) + 16
+                busy[i] = round(saleTime[i]) + 61
+
+        # Add EV of call to total daily profit
         total += currentEV
 
+    # Subtract passed time from busy agents
     for i in range(0, len(busy)):
         if busy[i] > 0:
             busy[i] -= 1
 
-print(total)
+    # Check for errors
+    if currentCall not in StrategyName and not '0':  # Delete
+        Caught.append('Strategy Unlisted')
+    if currentAgent == 'null':
+        if currentCall != '0':
+            Caught.append('Agent still null')
+    BusyTrack = True
+    for i in busy:
+        if i == 0:
+            BusyTrack = False
+    if BusyTrack:
+        if 'Agents all busy' not in Caught:
+            Caught.append('Agents all busy')
+    if currentEV < 0:
+        Caught.append('Negative EV used')
+    for i in AgentUseTracker:
+        if i == currentAgent:
+            AgentUseTracker.remove(i)
+if len(AgentUseTracker) > 0:
+    Caught.append(f'Agents unused: {AgentUseTracker}')
+
+# Final Report
+print("---------------------------------------------------------------")
+print(f'Total profit: {total}')
+print(f'Errors:{Caught}')  # Delete
+print(f'Time wasted with no available agents: {timeWasted}')
